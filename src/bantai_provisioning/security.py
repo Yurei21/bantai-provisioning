@@ -107,6 +107,7 @@ class ProvisioningHandshake:
         self._session_key = None
         self._transcript_hash = None
         self._deadline = None
+        self._seen_client_nonces: set[bytes] = set()
 
     def handle_client_hello(self, message: bytes) -> bytes:
         """Validate a client hello and return the signed server hello."""
@@ -236,16 +237,90 @@ class ProvisioningHandshake:
         ):
             return False
 
-        # Accept the token once, then close this handshake session.
+        # Accept the token once, but retain the session for provisioning.
         self.authorized = True
         self._token_consumed = True
         self._setup_token_hash = b""
-        self._close_session()
 
         return True
+
+
+    def decrypt_client_message(self, message: bytes) -> dict:
+        """Decrypt an authenticated client message after authorization."""
+        if not self.authorized or self._session_key is None:
+            raise ValueError("Provisioning session is not authorized")
+
+        if self._deadline is None or time.monotonic() > self._deadline:
+            self._close_session()
+            raise ValueError("Provisioning session expired")
+
+        if not isinstance(message, bytes) or len(message) > MAX_MESSAGE_SIZE:
+            raise ValueError("Invalid or oversized message")
+
+        try:
+            envelope = json.loads(message.decode("utf-8"))
+
+            if envelope.get("type") != "encrypted":
+                raise ValueError("Unexpected message type")
+
+            nonce = decode64(envelope["nonce"], 12)
+            ciphertext = decode64(envelope["ciphertext"])
+
+            if nonce in self._seen_client_nonces:
+                raise ValueError("Replayed message")
+
+            plaintext = AESGCM(self._session_key).decrypt(
+                nonce,
+                ciphertext,
+                self._transcript_hash + b"client-to-server",
+            )
+
+            payload = json.loads(plaintext.decode("utf-8"))
+
+            if not isinstance(payload, dict):
+                raise ValueError("Expected a JSON object")
+
+        except InvalidTag:
+            raise ValueError("Message authentication failed") from None
+        except (
+            ValueError,
+            TypeError,
+            KeyError,
+            UnicodeDecodeError,
+            json.JSONDecodeError,
+        ):
+            raise ValueError("Malformed encrypted message") from None
+
+        self._seen_client_nonces.add(nonce)
+        return payload
+
+    def encrypt_server_message(self, payload: dict) -> bytes:
+        """Encrypt an authenticated response for the provisioning client."""
+        if not self.authorized or self._session_key is None:
+            raise ValueError("Provisioning session is not authorized")
+
+        if self._deadline is None or time.monotonic() > self._deadline:
+            self._close_session()
+            raise ValueError("Provisioning session expired")
+
+        nonce = secrets.token_bytes(12)
+
+        ciphertext = AESGCM(self._session_key).encrypt(
+            nonce,
+            canonical_json(payload),
+            self._transcript_hash + b"server-to-client",
+        )
+
+        return canonical_json({
+            "type": "encrypted",
+            "nonce": encode64(nonce),
+            "ciphertext": encode64(ciphertext),
+        })
 
     def _close_session(self) -> None:
         """Discard ephemeral session material."""
         self._session_key = None
         self._transcript_hash = None
         self._deadline = None
+        self._seen_client_nonces.clear()
+        self.authorized = False
