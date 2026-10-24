@@ -86,11 +86,11 @@ class ProvisioningHandshake:
     """Server side of the BANTAI authenticated BLE setup handshake."""
 
     def reset_if_unauthorized(self) -> None:
-    if not self.authorized and not self._token_consumed:
-        self._session_key = None
-        self._transcript_hash = None
-        self._deadline = None
-        self._seen_client_nonces.clear()
+        if not self.authorized and not self._token_consumed:
+            self._session_key = None
+            self._transcript_hash = None
+            self._deadline = None
+            self._seen_client_nonces.clear()
 
     def __init__(
         self,
