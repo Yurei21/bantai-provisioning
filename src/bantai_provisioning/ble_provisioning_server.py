@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """BLE GATT provisioning server for BANTAI Pi setup."""
 
 import argparse
@@ -27,14 +26,20 @@ SERVICE_UUID = "8b7e1000-6d7a-4e9a-9c4e-123456789001"
 IDENTITY_UUID = "8b7e1003-6d7a-4e9a-9c4e-123456789001"
 PROVISION_UUID = "8b7e1004-6d7a-4e9a-9c4e-123456789001"
 
+DEFAULT_MTU = 23
+MAX_MESSAGE = 4096
+
 
 def v(signature, value):
     return Variant(signature, value)
 
 
-class Application(ServiceInterface):
-    """GATT application ObjectManager."""
+def opt(options, key, default):
+    item = options.get(key)
+    return item.value if item is not None else default
 
+
+class Application(ServiceInterface):
     def __init__(self):
         super().__init__("org.freedesktop.DBus.ObjectManager")
 
@@ -85,7 +90,9 @@ class GattService(ServiceInterface):
 class IdentityCharacteristic(ServiceInterface):
     def __init__(self, identity):
         super().__init__("org.bluez.GattCharacteristic1")
-        self.identity = identity
+        self._payload = json.dumps(
+            identity, separators=(",", ":"), sort_keys=True
+        ).encode("utf-8")
 
     @dbus_property(access=PropertyAccess.READ)
     def UUID(self) -> "s":
@@ -101,20 +108,25 @@ class IdentityCharacteristic(ServiceInterface):
 
     @method()
     def ReadValue(self, options: "a{sv}") -> "ay":
-        payload = json.dumps(
-            self.identity,
-            separators=(",", ":"),
-            sort_keys=True,
-        ).encode("utf-8")
-        return [b for b in payload]
+        offset = opt(options, "offset", 0)
+        return self._payload[offset:]
 
 
 class ProvisioningCharacteristic(ServiceInterface):
+    """
+    Framing (both directions): message = 2-byte big-endian length + body,
+    split across as many GATT packets as needed. Responses are sent as
+    notifications because BlueZ discards WriteValue return values.
+    """
+
     def __init__(self, session: ProvisioningSession):
         super().__init__("org.bluez.GattCharacteristic1")
         self.session = session
-        self._subscribed = False
-        self._pending_notifications = []
+        self._notifying = False
+        self._value = b""
+        self._rx = bytearray()
+        self._mtu = DEFAULT_MTU
+        self._tx_lock = asyncio.Lock()
 
     @dbus_property(access=PropertyAccess.READ)
     def UUID(self) -> "s":
@@ -128,39 +140,67 @@ class ProvisioningCharacteristic(ServiceInterface):
     def Flags(self) -> "as":
         return ["write", "notify"]
 
+    @dbus_property(access=PropertyAccess.READ)
+    def Value(self) -> "ay":
+        return self._value
+
+    @dbus_property(access=PropertyAccess.READ)
+    def Notifying(self) -> "b":
+        return self._notifying
+
     @method()
     def StartNotify(self):
-        self._subscribed = True
-        print("[BANTAI] Client subscribed to provisioning notifications")
+        self._notifying = True
+        self._rx.clear()
+        print("[BANTAI] Client subscribed")
 
     @method()
     def StopNotify(self):
-        self._subscribed = False
-        print("[BANTAI] Client unsubscribed from provisioning notifications")
+        self._notifying = False
+        self._rx.clear()
+        print("[BANTAI] Client unsubscribed")
 
     @method()
-    def WriteValue(self, value: "ay", options: "a{sv}") -> "ay":
-        """Handle incoming provisioning messages."""
+    def WriteValue(self, value: "ay", options: "a{sv}"):
+        self._mtu = opt(options, "mtu", self._mtu)
+        self._rx.extend(bytes(value))
+
+        if len(self._rx) < 2:
+            return
+        expected = int.from_bytes(self._rx[:2], "big")
+        if expected > MAX_MESSAGE:
+            self._rx.clear()
+            return
+        if len(self._rx) < 2 + expected:
+            return  # wait for more chunks
+
+        message = bytes(self._rx[2:2 + expected])
+        self._rx.clear()
+        asyncio.get_running_loop().create_task(self._handle(message))
+
+    async def _handle(self, message: bytes):
         try:
-            message = bytes(value)
-            response = self.session.process_message(message)
-
-            if response:
-                return [b for b in response]
-
-            return []
-
+            response = await asyncio.to_thread(self.session.process_message, message)
         except Exception as e:
-            error_response = json.dumps({
-                "type": "error",
-                "error": str(e),
-            }).encode("utf-8")
-            return [b for b in error_response]
+            print(f"[BANTAI] process_message error: {e}")
+            response = json.dumps({"type": "error", "error": "internal"}).encode()
+        if response:
+            await self._send(bytes(response))
+
+    async def _send(self, data: bytes):
+        framed = len(data).to_bytes(2, "big") + data
+        chunk = max(20, self._mtu - 3)
+        async with self._tx_lock:
+            for i in range(0, len(framed), chunk):
+                self._value = framed[i:i + chunk]
+                self.emit_properties_changed({"Value": self._value})
+                await asyncio.sleep(0.03)  # let BlueZ flush each packet
 
 
 class Advertisement(ServiceInterface):
-    def __init__(self):
+    def __init__(self, local_name: str):
         super().__init__("org.bluez.LEAdvertisement1")
+        self._name = local_name
 
     @dbus_property(access=PropertyAccess.READ)
     def Type(self) -> "s":
@@ -172,7 +212,7 @@ class Advertisement(ServiceInterface):
 
     @dbus_property(access=PropertyAccess.READ)
     def LocalName(self) -> "s":
-        return "BANTAI-Pi"
+        return self._name
 
     @method()
     def Release(self):
@@ -188,9 +228,7 @@ async def main(adapter_path: str, state_dir: Path, setup_token: str):
         identity_key=identity_key,
         setup_token=setup_token,
     )
-
-    hotspot_config = HotspotConfig(state_dir / "hotspot")
-    session = ProvisioningSession(handshake, hotspot_config)
+    session = ProvisioningSession(handshake, HotspotConfig(state_dir / "hotspot"))
 
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
 
@@ -198,61 +236,41 @@ async def main(adapter_path: str, state_dir: Path, setup_token: str):
     bus.export(SERVICE_PATH, GattService())
     bus.export(IDENTITY_CHAR_PATH, IdentityCharacteristic(identity))
     bus.export(PROVISION_CHAR_PATH, ProvisioningCharacteristic(session))
-    bus.export(ADV_PATH, Advertisement())
+    bus.export(ADV_PATH, Advertisement(identity["device_id"]))
 
     introspection = await bus.introspect("org.bluez", adapter_path)
     proxy = bus.get_proxy_object("org.bluez", adapter_path, introspection)
-
     gatt = proxy.get_interface("org.bluez.GattManager1")
     advertising = proxy.get_interface("org.bluez.LEAdvertisingManager1")
 
-    registered_gatt = False
-    registered_advertisement = False
-
+    registered_gatt = registered_adv = False
     try:
         await gatt.call_register_application(ROOT, {})
         registered_gatt = True
-
         await advertising.call_register_advertisement(ADV_PATH, {})
-        registered_advertisement = True
+        registered_adv = True
 
         print("[BANTAI] BLE provisioning server is running")
         print(f"[BANTAI] Device: {identity['device_id']}")
-        print(f"[BANTAI] Setup token: {setup_token}")
-        print("[BANTAI] Advertising name: BANTAI-Pi")
         print(f"[BANTAI] Service UUID: {SERVICE_UUID}")
-        print(f"[BANTAI] Identity UUID: {IDENTITY_UUID}")
-        print(f"[BANTAI] Provision UUID: {PROVISION_UUID}")
-        print("[BANTAI] Press Ctrl+C to stop")
-
         await asyncio.Future()
-
     finally:
-        if registered_advertisement:
+        if registered_adv:
             await advertising.call_unregister_advertisement(ADV_PATH)
-
         if registered_gatt:
             await gatt.call_unregister_application(ROOT)
-
         bus.disconnect()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--adapter",
-        default="/org/bluez/hci0",
-        help="BlueZ adapter object path",
-    )
+    parser.add_argument("--adapter", default="/org/bluez/hci0")
     parser.add_argument(
         "--state-dir",
         type=Path,
         default=Path.home() / ".local/state/bantai-provisioning",
     )
-    parser.add_argument(
-        "--setup-token",
-        help="One-time setup token (generated if not provided)",
-    )
+    parser.add_argument("--setup-token")
     args = parser.parse_args()
 
     token = args.setup_token or secrets.token_urlsafe(32)
