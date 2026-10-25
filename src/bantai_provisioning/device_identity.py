@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import secrets
+import time
 from pathlib import Path
 
 from cryptography.hazmat.primitives import serialization
@@ -113,13 +114,39 @@ def build_identity(state_dir: Path) -> dict:
 
     fingerprint = hashlib.sha256(public_key).hexdigest()
 
-    return {
+    identity = {
         "version": 1,
         "device_id": f"BANTAI-{serial}",
         "ble_service_uuid": BLE_SERVICE_UUID,
         "public_key": public_key_b64,
         "key_fingerprint": fingerprint,
     }
+
+    # Include current valid setup token if present (for easier provisioning)
+    try:
+        import time
+
+        token_file = state_dir / "setup_token.txt"
+        meta_file = state_dir / "setup_token_meta.json"
+        if token_file.exists():
+            token = token_file.read_text().strip()
+            if token:
+                if meta_file.exists():
+                    try:
+                        meta = json.loads(meta_file.read_text())
+                        created_at = meta.get("created_at", 0)
+                        if time.time() - created_at < 86400:  # 24 hours
+                            identity["setup_token"] = token
+                    except Exception:
+                        # If metadata missing/corrupt, don't include token for safety
+                        pass
+                else:
+                    # No metadata, don't include token
+                    pass
+    except Exception:
+        pass
+
+    return identity
 
 
 def main():
