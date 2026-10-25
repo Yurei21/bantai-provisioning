@@ -1,0 +1,465 @@
+<mxfile host="app.diagrams.net" agent="ChatGPT" pages="5">
+  <diagram id="bantai-ipo-framework" name="BANTAI IPO Conceptual Framework">
+    <mxGraphModel dx="1471" dy="803" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=25;fontStyle=1;fontColor=#17365D;" value="BANTAI: Conceptual Framework (Input–Process–Output)" vertex="1">
+          <mxGeometry height="55" width="1040" x="180" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=15;fontColor=#526579;" value="Broadcast-enabled AI Network for Threat and Accident Identification" vertex="1">
+          <mxGeometry height="28" width="880" x="260" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="input_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#F7FAFC;strokeColor=#8AA4BF;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="570" width="390" x="45" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="process_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#F7FAFC;strokeColor=#8AA4BF;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="570" width="390" x="505" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="output_bg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#F7FAFC;strokeColor=#8AA4BF;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="570" width="390" x="965" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="input_head" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#17365D;fontColor=#FFFFFF;strokeColor=#17365D;fontStyle=1;fontSize=20;align=center;verticalAlign=middle;" value="INPUT" vertex="1">
+          <mxGeometry height="50" width="350" x="65" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="process_head" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#17365D;fontColor=#FFFFFF;strokeColor=#17365D;fontStyle=1;fontSize=20;align=center;verticalAlign=middle;" value="PROCESS" vertex="1">
+          <mxGeometry height="50" width="350" x="525" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="output_head" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#17365D;fontColor=#FFFFFF;strokeColor=#17365D;fontStyle=1;fontSize=20;align=center;verticalAlign=middle;" value="OUTPUT" vertex="1">
+          <mxGeometry height="50" width="350" x="985" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="input1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DDEBF7;strokeColor=#6C8EBF;fontColor=#17365D;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;1. Video input&lt;/b&gt;&lt;br&gt;• Front and rear IMX219 cameras&lt;br&gt;• H.264 video streams (target: 720p / ~25 FPS each)" vertex="1">
+          <mxGeometry height="95" width="340" x="70" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="input2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DDEBF7;strokeColor=#6C8EBF;fontColor=#17365D;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;2. Motion / crash input&lt;/b&gt;&lt;br&gt;• ICM-42688-P IMU readings&lt;br&gt;• Acceleration and angular-motion data" vertex="1">
+          <mxGeometry height="85" width="340" x="70" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="input3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DDEBF7;strokeColor=#6C8EBF;fontColor=#17365D;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;3. Context and connectivity&lt;/b&gt;&lt;br&gt;• Rider/device identity and session status&lt;br&gt;• GPS/location data, mobile data connection&lt;br&gt;• Rider and responder app inputs" vertex="1">
+          <mxGeometry height="105" width="340" x="70" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="input4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DDEBF7;strokeColor=#6C8EBF;fontColor=#17365D;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;4. System resources&lt;/b&gt;&lt;br&gt;• Raspberry Pi 5 with local rolling buffer&lt;br&gt;• KVM-hosted GPU inference server" vertex="1">
+          <mxGeometry height="90" width="340" x="70" y="565" as="geometry" />
+        </mxCell>
+        <mxCell id="proc1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2F0D9;strokeColor=#82B366;fontColor=#274E13;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;1. Acquire and transmit&lt;/b&gt;&lt;br&gt;Capture front/rear video; maintain local rolling footage; stream compressed video to the KVM when connectivity is available." vertex="1">
+          <mxGeometry height="85" width="340" x="530" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="proc2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2F0D9;strokeColor=#82B366;fontColor=#274E13;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;2. Detect threats and crashes&lt;/b&gt;&lt;br&gt;• YOLO26s + ByteTrack process video detections/tracks&lt;br&gt;• Threat-event rules assess detected objects/tracks&lt;br&gt;• Deterministic IMU algorithm evaluates crash patterns" vertex="1">
+          <mxGeometry height="115" width="340" x="530" y="335" as="geometry" />
+        </mxCell>
+        <mxCell id="proc3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2F0D9;strokeColor=#82B366;fontColor=#274E13;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;3. Coordinate incident handling&lt;/b&gt;&lt;br&gt;Send event data to the backend; associate time/location; notify rider/responders; allow rider confirmation or cancellation and apply timeout escalation rules." vertex="1">
+          <mxGeometry height="100" width="340" x="530" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="proc4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2F0D9;strokeColor=#82B366;fontColor=#274E13;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;4. Preserve and record evidence&lt;/b&gt;&lt;br&gt;Save relevant pre-/post-event footage and incident metadata; upload retained clips to Cloudflare R2; log events for review." vertex="1">
+          <mxGeometry height="75" width="340" x="530" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="out1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#D79B00;fontColor=#7F4120;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;1. Detection events&lt;/b&gt;&lt;br&gt;Threat alerts and IMU-based crash events with timestamps and available location context." vertex="1">
+          <mxGeometry height="80" width="340" x="990" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="out2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#D79B00;fontColor=#7F4120;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;2. Emergency notifications&lt;/b&gt;&lt;br&gt;Rider and responder alerts, confirmation/cancellation status, and timeout-based escalation." vertex="1">
+          <mxGeometry height="85" width="340" x="990" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="out3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#D79B00;fontColor=#7F4120;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;3. Evidence and incident records&lt;/b&gt;&lt;br&gt;Preserved video clips, event metadata, and searchable incident logs." vertex="1">
+          <mxGeometry height="80" width="340" x="990" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="out4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#D79B00;fontColor=#7F4120;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;4. Response coordination and visibility&lt;/b&gt;&lt;br&gt;Location-aware peer communication, responder coordination, and command-center monitoring through the apps/dashboard." vertex="1">
+          <mxGeometry height="100" width="340" x="990" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="out5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#D79B00;fontColor=#7F4120;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;5. Operational fallback&lt;/b&gt;&lt;br&gt;Local rolling footage remains available for later recovery when connectivity is interrupted." vertex="1">
+          <mxGeometry height="55" width="340" x="990" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="input_bg" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#44546A;strokeWidth=3;" target="process_bg" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="process_bg" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#44546A;strokeWidth=3;" target="output_bg" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="scope" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontColor=#7F6000;fontSize=13;align=center;verticalAlign=middle;" value="Scope note: visual threat detection is performed on the KVM-hosted AI pipeline; crash detection uses deterministic IMU logic. The IMU data is not an ML input." vertex="1">
+          <mxGeometry height="45" width="1170" x="115" y="755" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="1 System Architecture" id="LH6tQYRPlYE54hPm9ehv">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1500" pageHeight="750" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;align=center;" value="BANTAI System Architecture" vertex="1">
+          <mxGeometry height="45" width="420" x="520" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="front" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Front IMX219 Camera&lt;br&gt;H.264 video stream" vertex="1">
+          <mxGeometry height="65" width="180" x="40" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="rear" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Rear IMX219 Camera&lt;br&gt;H.264 video stream" vertex="1">
+          <mxGeometry height="65" width="180" x="40" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="imu" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="ICM-42688-P IMU&lt;br&gt;Deterministic crash detection" vertex="1">
+          <mxGeometry height="70" width="180" x="40" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="pi" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Raspberry Pi 5 (8 GB)&lt;br&gt;Capture • timestamp • local buffer&lt;br&gt;Stream + sensor pipeline" vertex="1">
+          <mxGeometry height="115" width="220" x="330" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="phone" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Rider Mobile App&lt;br&gt;Hotspot provisioning via BLE / QR&lt;br&gt;Driver identity &amp; status" vertex="1">
+          <mxGeometry height="95" width="220" x="360" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="net" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Phone hotspot / 4G / 5G&lt;br&gt;Internet connectivity" vertex="1">
+          <mxGeometry height="75" width="180" x="580" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="kvm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="KVM-hosted ML Server&lt;br&gt;RTX 5060 Ti 16 GB&lt;br&gt;Docker • NVDEC • YOLO26s + ByteTrack" vertex="1">
+          <mxGeometry height="110" width="250" x="850" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="events" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Threat / crash event processing&lt;br&gt;Detection metadata • clip selection&lt;br&gt;Fallback clip handling" vertex="1">
+          <mxGeometry height="85" width="250" x="730" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="backend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Backend API (NestJS / Fastify)&lt;br&gt;Authentication • event routing&lt;br&gt;WebSockets / REST" vertex="1">
+          <mxGeometry height="95" width="240" x="1190" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="storage" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Cloudflare R2&lt;br&gt;Evidence clips / selected media" vertex="1">
+          <mxGeometry height="70" width="240" x="1390" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="responder" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Responder App / Dashboard&lt;br&gt;Receive alerts • review event&lt;br&gt;Confirm / dismiss false positives" vertex="1">
+          <mxGeometry height="90" width="250" x="970" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Admin Web Dashboard&lt;br&gt;Users • responders • event log&lt;br&gt;Audit / system oversight" vertex="1">
+          <mxGeometry height="85" width="240" x="1390" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=left;spacing=8;" value="Connectivity loss: Pi retains a rolling local buffer. When the uplink returns, queued/fallback clips can be transferred without treating raw IMU data as ML input." vertex="1">
+          <mxGeometry height="65" width="500" x="300" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="front" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="pi" value="video">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="rear" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="pi" value="video">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="imu" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="pi" value="acceleration / gyro data">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="phone" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="net" value="hotspot / internet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="pi" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="net" value="H.264 streams + crash events">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="net" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="kvm" value="uplink">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="kvm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="events" value="detections / tracks">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="events" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="backend" value="event + evidence references">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="backend" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="storage" value="upload / object reference">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="backend" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="responder" value="push / WebSocket alert">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="backend" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="admin" value="logs / management">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="events" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;dashed=1;fontSize=11;labelBackgroundColor=#ffffff;" target="responder" value="event context">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="pi" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;dashed=1;fontSize=11;labelBackgroundColor=#ffffff;" target="phone" value="BLE provisioning / status">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="2 Rider Flowchart" id="U9s4ZA8fpVV0tjanoTgY">
+    <mxGraphModel dx="1776" dy="969" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="830" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;align=center;" value="Rider User Flowchart — Mobile App" vertex="1">
+          <mxGeometry height="40" width="500" x="450" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Open app" vertex="1">
+          <mxGeometry height="45" width="150" x="590" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="auth" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Sign in / Create account" vertex="1">
+          <mxGeometry height="55" width="210" x="560" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="valid" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="Credentials valid?" vertex="1">
+          <mxGeometry height="60" width="190" x="570" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="err" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Show validation error&lt;br&gt;Retry sign-in" vertex="1">
+          <mxGeometry height="55" width="180" x="220" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="home" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Rider Home&lt;br&gt;Connection + device status" vertex="1">
+          <mxGeometry height="60" width="210" x="620" y="375" as="geometry" />
+        </mxCell>
+        <mxCell id="pair" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Pair / provision device&lt;br&gt;Scan QR or use BLE" vertex="1">
+          <mxGeometry height="65" width="210" x="470" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="hotspot" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Send hotspot credentials&lt;br&gt;to Pi securely" vertex="1">
+          <mxGeometry height="60" width="210" x="210" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="ready" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="Device connected?" vertex="1">
+          <mxGeometry height="60" width="190" x="570" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="retry" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Show setup guidance&lt;br&gt;Retry pairing" vertex="1">
+          <mxGeometry height="55" width="180" x="300" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="monitor" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Monitoring status&lt;br&gt;Stream / recording / IMU status" vertex="1">
+          <mxGeometry height="65" width="220" x="880" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="alert" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Receive event / emergency alert" vertex="1">
+          <mxGeometry height="55" width="220" x="730" y="475" as="geometry" />
+        </mxCell>
+        <mxCell id="review" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="View event details&lt;br&gt;Contact responder / acknowledge" vertex="1">
+          <mxGeometry height="65" width="220" x="740" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="logout" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Sign out" vertex="1">
+          <mxGeometry height="45" width="150" x="590" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="auth" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" edge="1" parent="1" source="auth" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="valid" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="err" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" edge="1" parent="1" source="err" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="auth" value="Retry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" edge="1" parent="1" source="valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="home" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" edge="1" parent="1" source="home" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="pair" value="Set up device">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a7" edge="1" parent="1" source="pair" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="hotspot" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a8" edge="1" parent="1" source="hotspot" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="ready" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a9" edge="1" parent="1" source="ready" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="retry" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a10" edge="1" parent="1" source="retry" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="pair" value="Retry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a11" edge="1" parent="1" source="ready" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="monitor" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a12" edge="1" parent="1" source="monitor" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="alert" value="If event occurs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a13" edge="1" parent="1" source="alert" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="review" value="Open alert">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a14" edge="1" parent="1" source="review" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;dashed=1;fontSize=11;labelBackgroundColor=#ffffff;" target="monitor" value="Return to monitoring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a15" edge="1" parent="1" source="home" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;dashed=1;fontSize=11;labelBackgroundColor=#ffffff;" target="logout" value="Sign out">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="3 Responder App Flowchart" id="RFRXcfEH9TK1tFddFRc3">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1250" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;align=center;" value="Responder App Flowchart — Mobile App" vertex="1">
+          <mxGeometry height="40" width="550" x="690" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Open responder app" vertex="1">
+          <mxGeometry height="45" width="190" x="570" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="auth" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Sign in" vertex="1">
+          <mxGeometry height="50" width="190" x="1060" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="valid" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="Authorized responder?" vertex="1">
+          <mxGeometry height="60" width="190" x="560" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="deny" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Show access denied&lt;br&gt;Return to sign-in" vertex="1">
+          <mxGeometry height="55" width="190" x="560" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="dashboard" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Responder dashboard&lt;br&gt;Online status + event queue" vertex="1">
+          <mxGeometry height="65" width="250" x="1200" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="incoming" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="New threat / crash alert?" vertex="1">
+          <mxGeometry height="60" width="190" x="920" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="wait" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Continue monitoring queue" vertex="1">
+          <mxGeometry height="55" width="190" x="460" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="details" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Open event details&lt;br&gt;Location • time • type • clip" vertex="1">
+          <mxGeometry height="65" width="250" x="670" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="verify" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Review evidence / context" vertex="1">
+          <mxGeometry height="55" width="250" x="670" y="865" as="geometry" />
+        </mxCell>
+        <mxCell id="decision" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="Valid emergency?" vertex="1">
+          <mxGeometry height="60" width="190" x="980" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="confirm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Confirm event&lt;br&gt;Escalate / coordinate response" vertex="1">
+          <mxGeometry height="60" width="230" x="1380" y="805" as="geometry" />
+        </mxCell>
+        <mxCell id="dismiss" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Dismiss as false positive&lt;br&gt;Record reason" vertex="1">
+          <mxGeometry height="60" width="230" x="390" y="945" as="geometry" />
+        </mxCell>
+        <mxCell id="close" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Update status and event log&lt;br&gt;Return to queue" vertex="1">
+          <mxGeometry height="55" width="250" x="880" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="auth" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" edge="1" parent="1" source="auth" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="valid" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" edge="1" parent="1" source="valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="deny" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" edge="1" parent="1" source="deny" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="auth" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r5" edge="1" parent="1" source="valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="dashboard" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r6" edge="1" parent="1" source="dashboard" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="incoming" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r7" edge="1" parent="1" source="incoming" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="wait" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r8" edge="1" parent="1" source="wait" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="dashboard" value="Refresh / wait">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r9" edge="1" parent="1" source="incoming" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="details" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r10" edge="1" parent="1" source="details" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="verify" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r11" edge="1" parent="1" source="verify" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="decision" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r12" edge="1" parent="1" source="decision" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="confirm" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r13" edge="1" parent="1" source="decision" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="dismiss" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r14" edge="1" parent="1" source="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="close" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r15" edge="1" parent="1" source="dismiss" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="close" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r16" edge="1" parent="1" source="close" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;fontSize=11;labelBackgroundColor=#ffffff;" target="dashboard" value="Next event">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="4 Admin Web Flowchart" id="9YGqOR7h3rVaBCVh6bNC">
+    <mxGraphModel dx="1776" dy="969" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="930" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;align=center;" value="Admin Flowchart — Web Dashboard" vertex="1">
+          <mxGeometry height="40" width="450" x="450" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Open admin portal" vertex="1">
+          <mxGeometry height="45" width="190" x="310" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="auth" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Enter credentials" vertex="1">
+          <mxGeometry height="50" width="190" x="860" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="valid" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="Admin authenticated?" vertex="1">
+          <mxGeometry height="60" width="190" x="560" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="deny" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Show access denied&lt;br&gt;Retry / exit" vertex="1">
+          <mxGeometry height="55" width="190" x="770" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="dash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Admin dashboard" vertex="1">
+          <mxGeometry height="50" width="190" x="280" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="select" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="Choose module" vertex="1">
+          <mxGeometry height="60" width="190" x="560" y="405" as="geometry" />
+        </mxCell>
+        <mxCell id="users" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Manage rider / responder accounts&lt;br&gt;Create • update • deactivate" vertex="1">
+          <mxGeometry height="70" width="240" x="50" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="events" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Review event logs&lt;br&gt;Filter • inspect metadata / evidence" vertex="1">
+          <mxGeometry height="70" width="240" x="340" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="responders" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Manage responder assignments&lt;br&gt;Availability / role access" vertex="1">
+          <mxGeometry height="70" width="240" x="940" y="820" as="geometry" />
+        </mxCell>
+        <mxCell id="audit" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="View audit / system records&lt;br&gt;Track admin actions" vertex="1">
+          <mxGeometry height="70" width="240" x="1120" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="save" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Save changes / record audit trail" vertex="1">
+          <mxGeometry height="55" width="230" x="720" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="more" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="Another admin task?" vertex="1">
+          <mxGeometry height="60" width="190" x="520" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="logout" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Log out" vertex="1">
+          <mxGeometry height="45" width="190" x="560" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="auth" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" edge="1" parent="1" source="auth" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="valid" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" edge="1" parent="1" source="valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="deny" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" edge="1" parent="1" source="deny" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="auth" value="Retry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" edge="1" parent="1" source="valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="dash" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" edge="1" parent="1" source="dash" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="select" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" edge="1" parent="1" source="select" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="users" value="User accounts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d8" edge="1" parent="1" source="select" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="events" value="Event logs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d9" edge="1" parent="1" source="select" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="responders" value="Responder management">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d10" edge="1" parent="1" source="select" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="audit" value="Audit records">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d11" edge="1" parent="1" source="users" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="save" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d12" edge="1" parent="1" source="events" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="save" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d13" edge="1" parent="1" source="responders" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="save" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d14" edge="1" parent="1" source="audit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="save" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d15" edge="1" parent="1" source="save" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="more" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d16" edge="1" parent="1" source="more" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;fontSize=11;labelBackgroundColor=#ffffff;" target="select" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d17" edge="1" parent="1" source="more" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" target="logout" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
