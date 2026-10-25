@@ -152,37 +152,55 @@ class ProvisioningCharacteristic(ServiceInterface):
     def StartNotify(self):
         self._notifying = True
         self._rx.clear()
-        print("[BANTAI] Client subscribed")
+        print("[BANTAI] Client subscribed to provisioning notifications", flush=True)
 
     @method()
     def StopNotify(self):
         self._notifying = False
         self._rx.clear()
-        print("[BANTAI] Client unsubscribed")
+        print("[BANTAI] Client unsubscribed from provisioning notifications", flush=True)
 
     @method()
     def WriteValue(self, value: "ay", options: "a{sv}"):
         self._mtu = opt(options, "mtu", self._mtu)
-        self._rx.extend(bytes(value))
+        chunk = bytes(value)
+        print(f"[BANTAI] GATT WriteValue: {len(chunk)} bytes, mtu={self._mtu}", flush=True)
+        try:
+            print(f"[BANTAI] Write chunk preview: {chunk[:200]!r}", flush=True)
+        except Exception:
+            pass
+        self._rx.extend(chunk)
 
         if len(self._rx) < 2:
             return
         expected = int.from_bytes(self._rx[:2], "big")
         if expected > MAX_MESSAGE:
+            print(f"[BANTAI] Message too large ({expected} > {MAX_MESSAGE}), clearing buffer", flush=True)
             self._rx.clear()
             return
         if len(self._rx) < 2 + expected:
+            print(f"[BANTAI] Waiting for more chunks: have {len(self._rx)}, need {2+expected}", flush=True)
             return  # wait for more chunks
 
         message = bytes(self._rx[2:2 + expected])
         self._rx.clear()
+        print(f"[BANTAI] Received complete message ({len(message)} bytes)", flush=True)
         asyncio.get_running_loop().create_task(self._handle(message))
 
     async def _handle(self, message: bytes):
         try:
+            print(f"[BANTAI] Processing message: {message[:300]!r}", flush=True)
             response = await asyncio.to_thread(self.session.process_message, message)
+            print(f"[BANTAI] Session response: {len(response) if response else 0} bytes", flush=True)
+            if response:
+                try:
+                    print(f"[BANTAI] Response preview: {bytes(response)[:300]!r}", flush=True)
+                except Exception:
+                    pass
         except Exception as e:
-            print(f"[BANTAI] process_message error: {e}")
+            print(f"[BANTAI] process_message error: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
             response = json.dumps({"type": "error", "error": "internal"}).encode()
         if response:
             await self._send(bytes(response))

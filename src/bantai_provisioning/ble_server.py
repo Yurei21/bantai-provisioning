@@ -91,6 +91,7 @@ class IdentityCharacteristic(ServiceInterface):
 
     @method()
     def ReadValue(self, options: "a{sv}") -> "ay":
+        print("[BANTAI] Identity characteristic read by client", flush=True)
         payload = json.dumps(
             self.identity,
             separators=(",", ":"),
