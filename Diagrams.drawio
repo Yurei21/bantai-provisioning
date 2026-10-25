@@ -80,7 +80,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="1 System Architecture" id="LH6tQYRPlYE54hPm9ehv">
-    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1500" pageHeight="750" math="0" shadow="0">
+    <mxGraphModel dx="2146" dy="1171" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="750" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -169,7 +169,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="2 Rider Flowchart" id="U9s4ZA8fpVV0tjanoTgY">
-    <mxGraphModel dx="1493" dy="1644" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="830" math="0" shadow="0">
+    <mxGraphModel dx="1776" dy="1799" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="830" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -189,7 +189,7 @@
           <mxGeometry height="55" width="180" x="820" y="120" as="geometry" />
         </mxCell>
         <mxCell id="home" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Rider Home&lt;br&gt;Connection + device status" vertex="1">
-          <mxGeometry height="60" width="210" x="620" y="375" as="geometry" />
+          <mxGeometry height="60" width="210" x="610" y="355" as="geometry" />
         </mxCell>
         <mxCell id="pair" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Pair / provision device&lt;br&gt;Scan QR or use BLE" vertex="1">
           <mxGeometry height="65" width="210" x="470" y="465" as="geometry" />
