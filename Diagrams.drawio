@@ -169,24 +169,24 @@
     </mxGraphModel>
   </diagram>
   <diagram name="2 Rider Flowchart" id="U9s4ZA8fpVV0tjanoTgY">
-    <mxGraphModel dx="1776" dy="969" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="830" math="0" shadow="0">
+    <mxGraphModel dx="1493" dy="1644" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="830" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;align=center;" value="Rider User Flowchart — Mobile App" vertex="1">
-          <mxGeometry height="40" width="500" x="450" y="20" as="geometry" />
+          <mxGeometry height="40" width="500" x="400" y="-30" as="geometry" />
         </mxCell>
         <mxCell id="start" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Open app" vertex="1">
-          <mxGeometry height="45" width="150" x="590" y="90" as="geometry" />
+          <mxGeometry height="45" width="150" x="560" y="40" as="geometry" />
         </mxCell>
         <mxCell id="auth" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Sign in / Create account" vertex="1">
-          <mxGeometry height="55" width="210" x="560" y="165" as="geometry" />
+          <mxGeometry height="55" width="210" x="240" y="120" as="geometry" />
         </mxCell>
         <mxCell id="valid" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="Credentials valid?" vertex="1">
-          <mxGeometry height="60" width="190" x="570" y="260" as="geometry" />
+          <mxGeometry height="60" width="190" x="430" y="210" as="geometry" />
         </mxCell>
         <mxCell id="err" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Show validation error&lt;br&gt;Retry sign-in" vertex="1">
-          <mxGeometry height="55" width="180" x="220" y="320" as="geometry" />
+          <mxGeometry height="55" width="180" x="920" y="70" as="geometry" />
         </mxCell>
         <mxCell id="home" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Rider Home&lt;br&gt;Connection + device status" vertex="1">
           <mxGeometry height="60" width="210" x="620" y="375" as="geometry" />
@@ -204,7 +204,7 @@
           <mxGeometry height="55" width="180" x="300" y="630" as="geometry" />
         </mxCell>
         <mxCell id="monitor" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Monitoring status&lt;br&gt;Stream / recording / IMU status" vertex="1">
-          <mxGeometry height="65" width="220" x="880" y="230" as="geometry" />
+          <mxGeometry height="65" width="220" x="990" y="290" as="geometry" />
         </mxCell>
         <mxCell id="alert" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;align=center;verticalAlign=middle;spacing=6;" value="Receive event / emergency alert" vertex="1">
           <mxGeometry height="55" width="220" x="730" y="475" as="geometry" />
@@ -362,7 +362,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="4 Admin Web Flowchart" id="9YGqOR7h3rVaBCVh6bNC">
-    <mxGraphModel dx="1776" dy="969" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="930" math="0" shadow="0">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1400" pageHeight="930" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
