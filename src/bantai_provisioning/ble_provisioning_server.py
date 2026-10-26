@@ -119,9 +119,21 @@ class ProvisioningCharacteristic(ServiceInterface):
     notifications because BlueZ discards WriteValue return values.
     """
 
-    def __init__(self, session: ProvisioningSession):
+    def __init__(self, device_id: str, identity_key, setup_token: str, hotspot_config: HotspotConfig):
         super().__init__("org.bluez.GattCharacteristic1")
-        self.session = session
+        self.device_id = device_id
+        self.identity_key = identity_key
+        self.setup_token = setup_token
+        self.hotspot_config = hotspot_config
+        self._make_session = lambda: ProvisioningSession(
+            ProvisioningHandshake(
+                device_id=self.device_id,
+                identity_key=self.identity_key,
+                setup_token=self.setup_token,
+            ),
+            self.hotspot_config,
+        )
+        self.session = self._make_session()
         self._notifying = False
         self._value = b""
         self._rx = bytearray()
@@ -152,13 +164,14 @@ class ProvisioningCharacteristic(ServiceInterface):
     def StartNotify(self):
         self._notifying = True
         self._rx.clear()
+        # Create a fresh session for each new client connection
+        try:
+            if getattr(self.session, "is_closed", False) or getattr(self.session, "_closed", False):
+                print("[BANTAI] Previous session closed, starting new session", flush=True)
+                self.session = self._make_session()
+        except Exception:
+            pass
         print("[BANTAI] Client subscribed to provisioning notifications", flush=True)
-
-    @method()
-    def StopNotify(self):
-        self._notifying = False
-        self._rx.clear()
-        print("[BANTAI] Client unsubscribed from provisioning notifications", flush=True)
 
     @method()
     def WriteValue(self, value: "ay", options: "a{sv}"):
@@ -240,20 +253,19 @@ class Advertisement(ServiceInterface):
 async def main(adapter_path: str, state_dir: Path, setup_token: str):
     identity = build_identity(state_dir)
     identity_key = load_or_create_key(state_dir)
-
-    handshake = ProvisioningHandshake(
-        device_id=identity["device_id"],
-        identity_key=identity_key,
-        setup_token=setup_token,
-    )
-    session = ProvisioningSession(handshake, HotspotConfig(state_dir / "hotspot"))
+    hotspot_config = HotspotConfig(state_dir / "hotspot")
 
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
 
     bus.export(ROOT, Application())
     bus.export(SERVICE_PATH, GattService())
     bus.export(IDENTITY_CHAR_PATH, IdentityCharacteristic(identity))
-    bus.export(PROVISION_CHAR_PATH, ProvisioningCharacteristic(session))
+    bus.export(PROVISION_CHAR_PATH, ProvisioningCharacteristic(
+        device_id=identity["device_id"],
+        identity_key=identity_key,
+        setup_token=setup_token,
+        hotspot_config=hotspot_config,
+    ))
     bus.export(ADV_PATH, Advertisement(identity["device_id"]))
 
     introspection = await bus.introspect("org.bluez", adapter_path)
