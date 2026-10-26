@@ -25,48 +25,57 @@ def main():
         default=None,
         help="Output file for the setup token (default: stdout)",
     )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Force generate a new token even if one exists",
+    )
     args = parser.parse_args()
 
     args.state_dir.mkdir(parents=True, exist_ok=True)
     args.state_dir.chmod(0o700)
 
     token_file = args.state_dir / "setup_token.txt"
+    qr_path = args.state_dir / "setup_token_qr.png"
 
-    # Check if there's an existing unexpired token
-    if token_file.exists():
+    # If token exists and not forced, reuse it (permanent token)
+    if token_file.exists() and not args.force:
         existing_token = token_file.read_text().strip()
         if existing_token:
-            token_path = args.state_dir / "setup_token_meta.json"
-            if token_path.exists():
-                import json
-                meta = json.loads(token_path.read_text())
-                created_at = meta.get("created_at", 0)
-                # Tokens are valid for 24 hours
-                if time.time() - created_at < 86400:
-                    print(f"Existing setup token (valid for {int((86400 - (time.time() - created_at)) / 3600)} more hours):")
-                    print(f"\n  {existing_token}\n")
-                    print("Display this token on the phone app to complete provisioning.")
-                    return
+            print("Using existing permanent setup token:")
+            print(f"\n  {existing_token}\n")
+            print(f"QR code saved to: {qr_path}")
+            # Regenerate QR in case it's missing
+            qr = qrcode.QRCode(
+                version=None,
+                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(existing_token)
+            qr.make(fit=True)
+            image = qr.make_image(fill_color="black", back_color="white")
+            image.save(qr_path)
+            return
 
-    # Generate a new token
+    # Generate a new permanent token
     token = secrets.token_urlsafe(32)
 
     # Save the token with restricted permissions
     token_file.write_text(token)
     token_file.chmod(0o600)
 
-    # Save metadata
+    # Save metadata (kept for compatibility)
     import json
     meta = {
         "created_at": time.time(),
-        "token_hash": secrets.token_hex(16),  # For display purposes only
+        "permanent": True,
     }
     meta_file = args.state_dir / "setup_token_meta.json"
     meta_file.write_text(json.dumps(meta, indent=2))
     meta_file.chmod(0o600)
 
-    # Generate a QR code for the token (for convenience)
-    qr_path = args.state_dir / "setup_token_qr.png"
+    # Generate a QR code for the token
     qr = qrcode.QRCode(
         version=None,
         error_correction=qrcode.constants.ERROR_CORRECT_M,
@@ -78,11 +87,10 @@ def main():
     image = qr.make_image(fill_color="black", back_color="white")
     image.save(qr_path)
 
-    print("Generated new setup token:")
+    print("Generated permanent setup token:")
     print(f"\n  {token}\n")
     print(f"QR code saved to: {qr_path}")
-    print("\nDisplay this token on the phone app to complete provisioning.")
-    print("The token is valid for 24 hours.")
+    print("\nThis token will not expire. Print the combined QR for provisioning.")
 
 
 if __name__ == "__main__":

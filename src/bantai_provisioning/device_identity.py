@@ -122,27 +122,13 @@ def build_identity(state_dir: Path) -> dict:
         "key_fingerprint": fingerprint,
     }
 
-    # Include current valid setup token if present (for easier provisioning)
+    # Include permanent setup token if present (for easier provisioning)
     try:
-        import time
-
         token_file = state_dir / "setup_token.txt"
-        meta_file = state_dir / "setup_token_meta.json"
         if token_file.exists():
             token = token_file.read_text().strip()
             if token:
-                if meta_file.exists():
-                    try:
-                        meta = json.loads(meta_file.read_text())
-                        created_at = meta.get("created_at", 0)
-                        if time.time() - created_at < 86400:  # 24 hours
-                            identity["setup_token"] = token
-                    except Exception:
-                        # If metadata missing/corrupt, don't include token for safety
-                        pass
-                else:
-                    # No metadata, don't include token
-                    pass
+                identity["setup_token"] = token
     except Exception:
         pass
 
