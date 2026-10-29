@@ -164,14 +164,9 @@ class ProvisioningCharacteristic(ServiceInterface):
     def StartNotify(self):
         self._notifying = True
         self._rx.clear()
-        # Create a fresh session for each new client connection
-        try:
-            if getattr(self.session, "is_closed", False) or getattr(self.session, "_closed", False):
-                print("[BANTAI] Previous session closed, starting new session", flush=True)
-                self.session = self._make_session()
-        except Exception:
-            pass
-        print("[BANTAI] Client subscribed to provisioning notifications", flush=True)
+        # Always create a fresh session for each new client (headless robust)
+        self.session = self._make_session()
+        print("[BANTAI] Client subscribed to provisioning notifications (new session)", flush=True)
 
     @method()
     def WriteValue(self, value: "ay", options: "a{sv}"):
